@@ -3,7 +3,7 @@ from distutils.core import setup
 print(setuptools.find_packages())
 setup(
     name='z-py',
-    version='0.1.9',
+    version='0.2.0',
     author='Haiyang Zheng',
     author_email='wnfdsfy@gmail.com',
     packages=setuptools.find_packages(),

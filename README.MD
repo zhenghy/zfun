@@ -2,13 +2,13 @@
 
     Always With Me, Function!. 
 
-### install:
+### Install:
 
-    pip3 install z-py
+    pip3 install -U z-py
 
-### usage:
+### Usage:
 
-- method 1
+- Method 1
     ```import zpy
        print(zpy.astr('110')) #Always covert string.
        print(zpy.astr(110))
@@ -17,7 +17,7 @@
        print(zpy.nowf('t')) #format now()!
     ```
 
-- method 2
+- Method 2
     ```from zpy.awm import * #awm:Always With Me
        astr('110')
        anum('110')
