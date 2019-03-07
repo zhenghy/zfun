@@ -16,6 +16,7 @@
        print(zpy.anum('110'))
        print(zpy.anum(110)) #Always covert float.
        print(zpy.nowf('t')) #format now()!
+       zpy.amkdir('test') #Always create dir test. return abspath.
     ```
 
 - Method 2
@@ -24,4 +25,5 @@
        astr('110')
        anum('110')
        nowf('d')
+       amkdir('test')
     ```

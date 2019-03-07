@@ -1,4 +1,5 @@
 from time import localtime,strftime
+import sys,os
 
 def astr(strobj):
     """
@@ -38,6 +39,13 @@ def nowf(format='t'):
         format='%Y-%m-%d'
     return strftime(format,localtime())
 
+def amkdir(dir_name):
+    #curdir=os.path.split(os.path.abspath(sys.argv[0]))[0]
+    curdir=os.getcwd()
+    credir=os.path.join(curdir,dir_name)
+    if not os.path.exists(credir):
+        os.mkdir(dir_name)
+    return credir
 
 #print(nowf('s'))
 #print(nowf('t'))
