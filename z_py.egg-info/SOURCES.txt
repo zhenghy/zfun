@@ -1,0 +1,12 @@
+MANIFEST.in
+README.MD
+setup.py
+zpy
+z_py.egg-info/PKG-INFO
+z_py.egg-info/SOURCES.txt
+z_py.egg-info/dependency_links.txt
+z_py.egg-info/requires.txt
+z_py.egg-info/top_level.txt
+zpy/__init__.py
+zpy/__main__.py
+zpy/awm.py

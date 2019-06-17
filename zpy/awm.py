@@ -1,5 +1,7 @@
+import os
+import sys
 from time import localtime, strftime
-import sys, os
+import pymysql
 
 
 def astr(strobj):
@@ -59,11 +61,65 @@ def script(fpath, s):
     :return: fpath.
     """
     import os
-    fpath=os.path.abspath(fpath)
+    fpath = os.path.abspath(fpath)
     with open(fpath, 'w') as f:
         f.write(s + '\n')
     os.system('chmod +x ' + fpath)
     return fpath
+
+
+class MYSQL:
+    def __init__(self, host, user, pwd, db):
+        self.host = host
+        self.user = user
+        self.pwd = pwd
+        self.db = db
+
+    def __GetConnect(self):
+        if self.db:
+            try:
+                self.conn = pymysql.connect(
+                    host=self.host, user=self.user, password=self.pwd, database=self.db)
+            except:
+                exit("Don't a MySQL or MSSQL database.")
+        else:
+            exit("No database.")
+        cur = self.conn.cursor()
+        if not cur:
+            exit("Error connect")
+        else:
+            return cur
+
+    def ExecQuery(self, sql):
+        cur = self.__GetConnect()
+        cur.execute(sql)
+        resList = cur.fetchall()
+        self.conn.close()
+        return resList
+
+    def ExecNonQuery(self, sql):
+        cur = self.__GetConnect()
+        try:
+            cur.execute(sql)
+            self.conn.commit()
+        except:
+            self.conn.rollback()
+        self.conn.close()
+
+    def UpdateInsert(self, table, column, info):
+        """
+        table: 'tname'
+        column: [`c1`,`c2`,`c3`]
+        info: ["(1,'2','a')","(2,'3','b')"]
+        `ON DUPLICATE KEY UPDATE`: UNIQUE INDEX is necessary.
+        """
+        sql = f"""
+        INSERT INTO {table}({','.join([ _ for _ in column])}) VALUE {','.join(info)}
+        ON DUPLICATE KEY UPDATE {','.join([f'{_}=VALUES({_})' for _ in column])}
+        """
+        self.ExecNonQuery(sql)
+        return sql
+
 
 # print(nowf('s'))
 # print(nowf('t'))
