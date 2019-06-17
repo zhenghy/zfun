@@ -114,7 +114,8 @@ class MYSQL:
         `ON DUPLICATE KEY UPDATE`: UNIQUE INDEX is necessary.
         """
         sql = f"""
-        INSERT INTO {table}({','.join([ _ for _ in column])}) VALUE {','.join(info)}
+        INSERT INTO {table}({','.join([ _ for _ in column])}) VALUE 
+        {',\n'.join(info)}
         ON DUPLICATE KEY UPDATE {','.join([f'{_}=VALUES({_})' for _ in column])}
         """
         self.ExecNonQuery(sql)
