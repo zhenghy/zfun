@@ -116,7 +116,7 @@ class MYSQL:
         sql = f"""
         INSERT INTO {table}({','.join([ _ for _ in column])}) VALUE 
         {',\n'.join(info)}
-        ON DUPLICATE KEY UPDATE {','.join([f'{_}=VALUES({_})' for _ in column])}
+        ON DUPLICATE KEY UPDATE {','.join([_+'=VALUES('+_+')' for _ in column])}
         """
         self.ExecNonQuery(sql)
         return sql
