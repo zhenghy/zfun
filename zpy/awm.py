@@ -106,7 +106,7 @@ class MYSQL:
             self.conn.rollback()
         self.conn.close()
 
-    def UpdateInsert(self, table, column, info):
+    def UpdateInsert(self, table, column, value):
         """
         table: 'tname'
         column: [`c1`,`c2`,`c3`]
@@ -115,7 +115,7 @@ class MYSQL:
         """
         sql = f"""
         INSERT INTO {table}({','.join([ _ for _ in column])}) VALUE 
-        {',\n'.join(info)}
+        {value}
         ON DUPLICATE KEY UPDATE {','.join([_+'=VALUES('+_+')' for _ in column])}
         """
         self.ExecNonQuery(sql)
