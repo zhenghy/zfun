@@ -1,6 +1,8 @@
 import os
+import re
 import sys
 from time import localtime, strftime
+
 import pymysql
 
 
@@ -78,8 +80,10 @@ class MYSQL:
     def __GetConnect(self):
         if self.db:
             try:
-                self.conn = pymysql.connect(
-                    host=self.host, user=self.user, password=self.pwd, database=self.db)
+                self.conn = pymysql.connect(host=self.host,
+                                            user=self.user,
+                                            password=self.pwd,
+                                            database=self.db)
             except:
                 exit("Don't a MySQL or MSSQL database.")
         else:
@@ -118,14 +122,20 @@ class MYSQL:
         {value}
         ON DUPLICATE KEY UPDATE {','.join([_+'=VALUES('+_+')' for _ in column])}
         """
+        sql = re.sub('\s+\n\s+','\n',sql)
         self.ExecNonQuery(sql)
         return sql
 
 
-# print(nowf('s'))
-# print(nowf('t'))
-# print(nowf('d'))
-# print(astr('110'))
-# print(astr(110))
-# print(anum(110))
-# print(anum('110'))
+def test():
+    print(nowf('s'))
+    print(nowf('t'))
+    print(nowf('d'))
+    print(astr('110'))
+    print(astr(110))
+    print(anum(110))
+    print(anum('110'))
+
+
+if __name__ == "__main__":
+    test()

@@ -2,7 +2,7 @@ import setuptools
 from distutils.core import setup
 setup(
     name='z-py',
-    version='0.4.4',
+    version='0.4.6',
     author='Haiyang Zheng',
     author_email='wnfdsfy@gmail.com',
     packages=setuptools.find_packages(),
@@ -12,6 +12,6 @@ setup(
     long_description=open('README.MD','r').read(),
     long_description_content_type='text/markdown',
     install_requires=['pymysql'],
-    keywords=('always', 'function'),
+    keywords=['always', 'function'],
     platforms='any',
 )
