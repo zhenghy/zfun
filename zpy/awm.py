@@ -122,7 +122,7 @@ class MYSQL:
         {value}
         ON DUPLICATE KEY UPDATE {','.join([_+'=VALUES('+_+')' for _ in column])}
         """
-        sql = re.sub('\s+\n\s+','\n',sql)
+        sql = re.sub(r'\s*\n\s*', '\n', sql) ##tidy
         self.ExecNonQuery(sql)
         return sql
 
