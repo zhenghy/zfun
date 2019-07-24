@@ -2,7 +2,7 @@ import setuptools
 from distutils.core import setup
 setup(
     name='z-py',
-    version='0.4.7',
+    version='0.5.0',
     author='Haiyang Zheng',
     author_email='wnfdsfy@gmail.com',
     packages=setuptools.find_packages(),

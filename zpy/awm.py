@@ -112,15 +112,17 @@ class MYSQL:
 
     def UpdateInsert(self, table, column, value):
         """
-        table: 'tname'
-        column: [`c1`,`c2`,`c3`]
-        info: ["(1,'2','a')","(2,'3','b')"]
-        `ON DUPLICATE KEY UPDATE`: UNIQUE INDEX is necessary.
+        table : 'table name'
+        column: ['c1','c2','c3']
+        value : ["(1,'2','a')","(2,'3','b')"]
+        NOTES : `ON DUPLICATE KEY UPDATE`, UNIQUE INDEX is necessary.
         """
+        sql_col = [f'`{i}`' for in column]
+        sql_val = '\n'.join(value)
         sql = f"""
-        INSERT INTO {table}({','.join([ _ for _ in column])}) VALUE 
-        {value}
-        ON DUPLICATE KEY UPDATE {','.join([_+'=VALUES('+_+')' for _ in column])}
+        INSERT INTO {table}({','.join([ _ for _ in sql_col])}) VALUE 
+        {sql_val}
+        ON DUPLICATE KEY UPDATE {','.join([_+'=VALUES('+_+')' for _ in sql_col])}
         """
         sql = re.sub(r'\s*\n\s*', '\n', sql) ##tidy
         self.ExecNonQuery(sql)
