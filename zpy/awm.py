@@ -117,7 +117,7 @@ class MYSQL:
         value : ["(1,'2','a')","(2,'3','b')"]
         NOTES : `ON DUPLICATE KEY UPDATE`, UNIQUE INDEX is necessary.
         """
-        sql_col = [f'`{i}`' for in column]
+        sql_col = [f'`{i}`' for i in column]
         sql_val = '\n'.join(value)
         sql = f"""
         INSERT INTO {table}({','.join([ _ for _ in sql_col])}) VALUE 
