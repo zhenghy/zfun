@@ -110,7 +110,8 @@ class MYSQL:
             self.conn.rollback()
         self.conn.close()
 
-    def UpdateInsert(self, table, column, value):
+    @staticmethod
+    def update_insert_sql(table, column, value):
         """
         table : 'table name'
         column: ['c1','c2','c3']
@@ -125,7 +126,6 @@ class MYSQL:
         ON DUPLICATE KEY UPDATE {','.join([_+'=VALUES('+_+')' for _ in sql_col])}
         """
         sql = re.sub(r'\s*\n\s*', '\n', sql) ##tidy
-        self.ExecNonQuery(sql)
         return sql
 
 
