@@ -1,57 +1,28 @@
-import os
 import re
-import sys
 from time import localtime, strftime
 
 import pymysql
 
 
-def astr(strobj):
+def nowf(former='t'):
     """
-    :param strobj:
-    :return a str type value:
+    format now time to a fix form.
+    :param former: a datetime format marker:
+        t -- time -- '2099-01-01 00:00:00' (default)
+        s -- serial -- '20990101000000'
+        d -- date -- '2099-01-01'
+        other -- '%Y%m%d%H%M%S...'
+    :return: a str value.
     """
+    person = {'s': '%Y%m%d%H%M%S',
+              't': '%Y-%m-%d %H:%M:%S',
+              'd': '%Y-%m-%d'}
+    # noinspection PyBroadException
     try:
-        return str(strobj)
-    except:
-        return strobj
-
-
-def anum(numobj):
-    """
-    :param intobj:
-    :return a num type value:
-    """
-    try:
-        return float(numobj)
-    except:
-        return numobj
-
-
-def nowf(format='t'):
-    """
-    :param format: a time format marker:
-    :return a str value:
-    """
-    if format == 's':
-        # serial
-        format = '%Y%m%d%H%M%S'
-    if format == 't':
-        # time
-        format = '%Y-%m-%d %H:%M:%S'
-    if format == 'd':
-        # date
-        format = '%Y-%m-%d'
-    return strftime(format, localtime())
-
-
-def amkdir(dir_name):
-    # curdir=os.path.split(os.path.abspath(sys.argv[0]))[0]
-    curdir = os.getcwd()
-    credir = os.path.join(curdir, dir_name)
-    if not os.path.exists(credir):
-        os.mkdir(dir_name)
-    return credir
+        former = person.get(former, former)
+        return strftime(former, localtime())
+    except Exception as e:
+        print('a flaw/blemish datetime former')
 
 
 def script(fpath, s):
@@ -59,7 +30,6 @@ def script(fpath, s):
     Create a executable file include command s.
     :param fpath: file path (include name.)
     :param s: file content.
-    :param c: execute command.
     :return: fpath.
     """
     import os
@@ -79,12 +49,16 @@ class MYSQL:
 
     def __GetConnect(self):
         if self.db:
+            # noinspection PyBroadException
             try:
                 self.conn = pymysql.connect(host=self.host,
                                             user=self.user,
                                             password=self.pwd,
-                                            database=self.db)
-            except:
+                                            database=self.db,
+                                            use_unicode=True,
+                                            charset='utf8'
+                                            )
+            except Exception as e:
                 exit("Don't a MySQL or MSSQL database.")
         else:
             exit("No database.")
@@ -97,18 +71,27 @@ class MYSQL:
     def ExecQuery(self, sql):
         cur = self.__GetConnect()
         cur.execute(sql)
-        resList = cur.fetchall()
+        res = cur.fetchall()
         self.conn.close()
-        return resList
+        return res
 
     def ExecNonQuery(self, sql):
+        """
+        Exec a mysql query with insert/update/delete
+        :param sql: a list of sql query
+        :return: 0 for failed , 1 for successed.
+        """
         cur = self.__GetConnect()
+        ok = 0
+        # noinspection PyBroadException
         try:
-            cur.execute(sql)
+            [cur.execute(i) for i in sql]
             self.conn.commit()
-        except:
+            ok = 1
+        except Exception as e:
             self.conn.rollback()
         self.conn.close()
+        return ok
 
     @staticmethod
     def update_insert_sql(table, column, value):
@@ -121,11 +104,11 @@ class MYSQL:
         sql_col = [f'`{i}`' for i in column]
         sql_val = ',\n'.join(value)
         sql = f"""
-        INSERT INTO {table}({','.join([ _ for _ in sql_col])}) VALUE 
+        INSERT INTO {table}({','.join([_ for _ in sql_col])}) VALUE 
         {sql_val}
-        ON DUPLICATE KEY UPDATE {','.join([_+'=VALUES('+_+')' for _ in sql_col])}
+        ON DUPLICATE KEY UPDATE {','.join([_ + '=VALUES(' + _ + ')' for _ in sql_col])}
         """
-        sql = re.sub(r'\s*\n\s*', '\n', sql) ##tidy
+        sql = re.sub(r'\s*\n\s*', '\n', sql)  ##tidy
         return sql
 
 
@@ -133,10 +116,6 @@ def test():
     print(nowf('s'))
     print(nowf('t'))
     print(nowf('d'))
-    print(astr('110'))
-    print(astr(110))
-    print(anum(110))
-    print(anum('110'))
 
 
 if __name__ == "__main__":

@@ -1,6 +1,9 @@
-# z-py
+### z-py
 
-    Always With Me, Function!. 
+  > Always With Me, Function!.
+
+    1. function nowf
+    2. class MYSQL 
 
 ### Install:
 
@@ -9,21 +12,13 @@
 ### Usage:
 
 - Method 1
-    ```python
-       import zpy
-       print(zpy.astr('110')) #Always covert string.
-       print(zpy.astr(110))
-       print(zpy.anum('110'))
-       print(zpy.anum(110)) #Always covert float.
-       print(zpy.nowf('t')) #format now()!
-       zpy.amkdir('test') #Always create dir test. return abspath.
-    ```
+  ```python
+  import zpy
+  print(zpy.nowf('t')) #format now()!
+  ```
 
 - Method 2
-    ```python
-       from zpy.awm import * #awm:Always With Me
-       astr('110')
-       anum('110')
-       nowf('d')
-       amkdir('test')
-    ```
+  ```python
+  from zpy.awm import * #awm:Always With Me
+  nowf('d')
+  ```
