@@ -1,17 +1,17 @@
 import setuptools
 from distutils.core import setup
 setup(
-    name='z-py',
-    version='1.0.1',
+    name='zfun',
+    version='2.0.0',
     author='Haiyang Zheng',
     author_email='wnfdsfy@gmail.com',
     packages=setuptools.find_packages(),
     url='https://github.com/zhenghy/zpy',
     license='MIT',
-    description='AWM :Always With Me Function',
+    description='a function and class sets in common use.',
     long_description=open('README.MD','r').read(),
     long_description_content_type='text/markdown',
     install_requires=['pymysql'],
-    keywords=['always', 'function'],
+    keywords=['common', 'function','class'],
     platforms='any',
 )

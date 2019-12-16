@@ -1,24 +1,12 @@
-### z-py
+### zfun
 
-  > Always With Me, Function!.
-
-    1. function nowf
-    2. class MYSQL 
+  > A function and class sets in common use.
 
 ### Install:
 
-    pip3 install -U z-py
+    pip3 install -U zfun
 
-### Usage:
+### List:
+  - Class
 
-- Method 1
-  ```python
-  import zpy
-  print(zpy.nowf('t')) #format now()!
-  ```
-
-- Method 2
-  ```python
-  from zpy.awm import * #awm:Always With Me
-  nowf('d')
-  ```
+  - Function
