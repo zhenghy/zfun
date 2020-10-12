@@ -10,3 +10,10 @@
   - Class
 
   - Function
+
+
+### Log
+
+  - Version 1.1.0
+
+  精简了常用函数：nowf(), mkdirf(),MYSQL(), mkscript()

@@ -1,6 +1,6 @@
 import re
 from time import localtime, strftime
-
+import os
 import pymysql
 
 
@@ -24,15 +24,23 @@ def nowf(former='t'):
     except Exception as e:
         print('a flaw/blemish datetime former')
 
+def mkdirf(pathf):
+    """Create a dir. if exist don't create.
+    Args:
+        pathf (str): dir name 
+    """
+    if not os.path.exists(pathf):
+        os.mkdir(pathf)
+    return os.abspath(pathf)
 
-def script(fpath, s):
+
+def mkscript(fpath, s):
     """
     Create a executable file include command s.
     :param fpath: file path (include name.)
     :param s: file content.
     :return: fpath.
     """
-    import os
     fpath = os.path.abspath(fpath)
     with open(fpath, 'w') as f:
         f.write(s + '\n')
@@ -67,6 +75,12 @@ class MYSQL:
             exit("Error connect")
         else:
             return cur
+    
+    @staticmethod
+    def tidySQL(sql):
+        sql = re.sub(r'\n\s*--sql\s*\n',' ',sql) #替换掉注释
+        sql = re.sub(r'\s*\n\s*',' ',sql) #替换掉换行前后的空白
+        return sql
 
     def ExecQuery(self, sql):
         cur = self.__GetConnect()
