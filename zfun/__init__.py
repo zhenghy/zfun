@@ -1,4 +1,4 @@
 __author__ = 'zhenghy'
-__all__ = ['nowf', 'mkscript', 'MYSQL', 'mkdirf']
+__all__ = ['nowf', 'mkscript', 'MYSQL', 'mkdirf', 'BIO']
 
-from zfun.awm import nowf, mkdirf, mkscript, MYSQL
+from zfun.awm import nowf, mkdirf, mkscript, MYSQL, BIO
