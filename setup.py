@@ -2,7 +2,7 @@ import setuptools
 from distutils.core import setup
 setup(
     name='zfun',
-    version='1.1.0',
+    version='1.1.3',
     author='Haiyang Zheng',
     author_email='wnfdsfy@gmail.com',
     packages=setuptools.find_packages(),

@@ -4,7 +4,7 @@ import os
 import pymysql
 
 
-def nowf(former='t'):
+def nowf(former="t"):
     """
     format now time to a fix form.
     :param former: a datetime format marker:
@@ -14,15 +14,14 @@ def nowf(former='t'):
         other -- '%Y%m%d%H%M%S...'
     :return: a str value.
     """
-    person = {'s': '%Y%m%d%H%M%S',
-              't': '%Y-%m-%d %H:%M:%S',
-              'd': '%Y-%m-%d'}
+    person = {"s": "%Y%m%d%H%M%S", "t": "%Y-%m-%d %H:%M:%S", "d": "%Y-%m-%d"}
     # noinspection PyBroadException
     try:
         former = person.get(former, former)
         return strftime(former, localtime())
     except Exception as e:
-        print('a flaw/blemish datetime former')
+        print("a flaw/blemish datetime former")
+
 
 def mkdirf(pathf):
     """Create a dir. if exist don't create.
@@ -31,7 +30,7 @@ def mkdirf(pathf):
     """
     if not os.path.exists(pathf):
         os.mkdir(pathf)
-    return os.abspath(pathf)
+    return os.path.abspath(pathf)
 
 
 def mkscript(fpath, s):
@@ -42,13 +41,31 @@ def mkscript(fpath, s):
     :return: fpath.
     """
     fpath = os.path.abspath(fpath)
-    with open(fpath, 'w') as f:
-        f.write(s + '\n')
-    os.system('chmod +x ' + fpath)
+    with open(fpath, "w") as f:
+        f.write(s + "\n")
+    os.system("chmod +x " + fpath)
     return fpath
 
 
+class BIO:
+    """生成常用的生物信息学变量
+    """
+    def __init__(self) -> None:
+        super().__init__()
+
+    @staticmethod
+    def humanChrName(M=True):
+        chrD = {i: f"chr{i+1}" for i in range(25)}
+        chrD[22] = "chrX"
+        chrD[23] = "chrY"
+        if M:
+            chrD[24] = "chrM"
+        return chrD
+
+
 class MYSQL:
+    """数据库链接
+    """
     def __init__(self, host, user, pwd, db):
         self.host = host
         self.user = user
@@ -59,13 +76,14 @@ class MYSQL:
         if self.db:
             # noinspection PyBroadException
             try:
-                self.conn = pymysql.connect(host=self.host,
-                                            user=self.user,
-                                            password=self.pwd,
-                                            database=self.db,
-                                            use_unicode=True,
-                                            charset='utf8'
-                                            )
+                self.conn = pymysql.connect(
+                    host=self.host,
+                    user=self.user,
+                    password=self.pwd,
+                    database=self.db,
+                    use_unicode=True,
+                    charset="utf8",
+                )
             except Exception as e:
                 exit("Don't a MySQL or MSSQL database.")
         else:
@@ -75,17 +93,19 @@ class MYSQL:
             exit("Error connect")
         else:
             return cur
-    
+
     @staticmethod
     def tidySQL(sql):
-        sql = re.sub(r'\n\s*--sql\s*\n',' ',sql) #替换掉注释
-        sql = re.sub(r'\s*\n\s*',' ',sql) #替换掉换行前后的空白
+        # sql = re.sub(r'\n\s*--sql\s*\n', ' ', sql) # 替换掉注释
+        sql = re.sub(r"\s*\n\s*", " ", sql)  # 替换掉换行前后的空白
         return sql
 
     def ExecQuery(self, sql):
         cur = self.__GetConnect()
         cur.execute(sql)
         res = cur.fetchall()
+        res_columns = ([i[0] for i in cur.description],)
+        res = res_columns+res ##res的第0个元素是标题。
         self.conn.close()
         return res
 
@@ -115,22 +135,24 @@ class MYSQL:
         value : ["(1,'2','a')","(2,'3','b')"]
         NOTES : `ON DUPLICATE KEY UPDATE`, UNIQUE INDEX is necessary.
         """
-        sql_col = [f'`{i}`' for i in column]
-        sql_val = ',\n'.join(value)
+        sql_col = [f"`{i}`" for i in column]
+        sql_val = ",\n".join(value)
         sql = f"""
         INSERT INTO {table}({','.join([_ for _ in sql_col])}) VALUE 
         {sql_val}
         ON DUPLICATE KEY UPDATE {','.join([_ + '=VALUES(' + _ + ')' for _ in sql_col])}
         """
-        sql = re.sub(r'\s*\n\s*', '\n', sql)  ##tidy
+        sql = re.sub(r"\s*\n\s*", "\n", sql)  ##tidy
         return sql
 
 
 def test():
-    print(nowf('s'))
-    print(nowf('t'))
-    print(nowf('d'))
-
+    print(nowf("s"))
+    print(nowf("t"))
+    print(nowf("d"))
+    bioTest = BIO()
+    chrD = bioTest.humanChrName()
+    print(chrD)
 
 if __name__ == "__main__":
     test()
