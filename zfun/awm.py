@@ -54,12 +54,24 @@ class BIO:
         super().__init__()
 
     @staticmethod
-    def humanChrName(M=True):
-        chrD = {i: f"chr{i+1}" for i in range(25)}
-        chrD[22] = "chrX"
-        chrD[23] = "chrY"
-        if M:
-            chrD[24] = "chrM"
+    def humanChrName(cl=None):
+        """生成染色体符号字典。
+
+        Args:
+            cl (list, optional): 指定列表. Defaults to None.
+
+        Returns:
+            dict: 返回字典。id:str
+        """
+        if not cl:
+            cl = list(range(1,23))
+        chrD = {i: f"chr{i}" for i in cl}
+        if 23 in cl:
+            chrD[23] = "chrX"
+        if 24 in cl:
+            chrD[24] = "chrY"
+        if 25 in cl:
+            chrD[25] = "chrM"
         return chrD
 
 
